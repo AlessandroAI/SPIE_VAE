@@ -15,7 +15,7 @@ import sys
 class EntropyBottleneck(nn.Module):
     """The prior $P_\theta(Z)$."""
 
-    def __init__(self, z_channels=64):
+    def __init__(self, z_channels=4):
         super(EntropyBottleneck, self).__init__()
         self.prior_log_variance = torch.nn.Parameter(torch.ones((1, z_channels, 1, 1)))
 
@@ -49,7 +49,7 @@ class EntropyBottleneck(nn.Module):
 class EncoderModel(nn.Module):
     """A box-shaped variational distribution $Q(Z|X)$."""
 
-    def __init__(self, hidden_channels=4, z_channels=64):
+    def __init__(self, hidden_channels=4, z_channels=4):
         super(EncoderModel, self).__init__()
         self.z_shape = [z_channels, 4, 4]
         self.conv1 = nn.Conv2d(
@@ -84,7 +84,7 @@ class EncoderModel(nn.Module):
 class DecoderModel(nn.Module):
     """Maps z to a reconstructed image."""
 
-    def __init__(self, z_channels=64, hidden_channels=4):
+    def __init__(self, z_channels=4, hidden_channels=4):
         super(DecoderModel, self).__init__()
         self.deconv1 = nn.ConvTranspose2d(
             in_channels=z_channels, out_channels=hidden_channels,
